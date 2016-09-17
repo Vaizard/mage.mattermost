@@ -1,0 +1,12 @@
+---
+mattermost_version: 3.4.0
+
+### The user the mattermost process will run as. The group will match.
+mattermost_user: 'mattermost'
+
+### Database settings
+db_user: 'mmmost'
+db_name: 'mattermost'
+
+# db_password: ''
+# db_password must be set in the play
