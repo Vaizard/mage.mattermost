@@ -27,6 +27,14 @@
     line: '        "DataSource": "{{ db_user }}:{{ db_password }}@tcp(127.0.0.1:3306)/{{ db_name }}?charset=utf8mb4,utf8",'
     backrefs: yes
 
+- name: Edit /opt/mattermost/config/config.json
+  lineinfile:
+    dest: /opt/mattermost/config/config.json
+    regexp: '"{{ item.key }}":'
+    line: '        "{{ item.key }}": "{{ item.value }}",'
+    backrefs: yes
+  with_items: "{{ mattermost_config }}"
+    
 - name: Create mattermost user
   user: 
     name: "{{ mattermost_user }}"
@@ -50,8 +58,19 @@
     group: "{{ mattermost_user }}"
     recurse: yes
 
+- name: Install the latest postfix
+  package: name=postfix state=latest
+  
+- name: Enable Mattermost service
+  service:
+    name: postfix
+    enabled: yes
+    state: started
+
 - name: Enable Mattermost service
   service:
     name: mattermost
     enabled: yes
     state: started
+
+ 

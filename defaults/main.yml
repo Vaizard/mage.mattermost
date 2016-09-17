@@ -10,3 +10,8 @@ db_name: 'mattermost'
 
 # db_password: ''
 # db_password must be set in the play
+
+### Mattermost config
+mattermost_config:
+  SegmentDeveloperKey: 'testansible'
+

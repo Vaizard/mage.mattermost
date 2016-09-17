@@ -3,3 +3,13 @@
   service:
     name: mattermost
     state: started
+
+- name: restart mattermost
+  service:
+    name: mattermost
+    state: restarted
+
+- name: restart postfix
+  service:
+    name: postfix
+    state: restarted
