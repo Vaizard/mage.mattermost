@@ -6,7 +6,7 @@ mattermost_user: 'mattermost'
 mattermost_fqdn: 'mattermost.localhost'
 
 ### Database settings
-db_user: 'mmmost'
+db_user: 'mmost'
 db_name: 'mattermost'
 
 # db_password: ''
@@ -14,4 +14,4 @@ db_name: 'mattermost'
 
 ### Mattermost config
 mattermost_config:
-        SiteURL: "https://{{ mattermost_fqdn }}"
+  SiteURL: "https://{{ mattermost_fqdn }}"

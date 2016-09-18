@@ -28,12 +28,14 @@
 #    backrefs: yes
 
 - name: Listen on public and private IP
-  lineinfile: dest=/etc/ssh/sshd_config
+  lineinfile: dest=/opt/mattermost/config/config.json
               line='{{ item.line }}'
               backrefs: yes
   with_items:
     - { regexp: '"SiteURL":',    line: '        "SiteURL": "{{ mattermost_config.SiteURL }}",' }
     - { regexp: '"DataSource":', line: '        "DataSource": "{{ db_user }}:{{ db_password }}@tcp(127.0.0.1:3306)/{{ db_name }}?charset=utf8mb4,utf8",' }
+  notify:
+    - reload mattermost
 
   
 - name: Create mattermost user
