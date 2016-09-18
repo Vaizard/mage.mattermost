@@ -56,7 +56,7 @@
     - { regexp: '"EnablePublicLink":',         line: '        "EnablePublicLink": {{ mattermost_config.EnablePublicLink }},' }
     - { regexp: '"EnableOnlyAdminIntegrations":', line: '     "EnableOnlyAdminIntegrations": {{ mattermost_config.EnableOnlyAdminIntegrations }},' }
     - { regexp: '"EnableCustomEmoji":',        line: '        "EnableCustomEmoji": {{ mattermost_config.EnableCustomEmoji }},' }
-    notify:
+  notify:
     - restart mattermost
 
 - name: Create mattermost user
