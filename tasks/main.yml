@@ -27,12 +27,38 @@
     regexp: '{{ item.regexp }}'
     backrefs: yes
   with_items:
-    - { regexp: '"SiteURL":',    line: '        "SiteURL": "{{ mattermost_config.SiteURL }}",' }
-    - { regexp: '"DataSource":', line: '        "DataSource": "{{ db_user }}:{{ db_password }}@tcp(127.0.0.1:3306)/{{ db_name }}?charset=utf8mb4,utf8",' }
-  notify:
+    - { regexp: '"SiteURL":',                  line: '        "SiteURL": "{{ mattermost_config.SiteURL }}",' }
+    - { regexp: '"DataSource":',               line: '        "DataSource": "{{ mattermost_db_user }}:{{ mattermost_db_password }}@tcp(127.0.0.1:3306)/{{ mattermost_db_name }}?charset=utf8mb4,utf8",' }
+    - { regexp: '"MinimumLength":',            line: '        "MinimumLength": {{ mattermost_config.MinimumLength }},' }
+    - { regexp: '"MaxFileSize":',              line: '        "MaxFileSize": {{ mattermost_config.MaxFileSize }},' }    
+    - { regexp: '"EnableSignUpWithEmail":',    line: '        "EnableSignUpWithEmail": {{ mattermost_config.EnableSignUpWithEmail }},' }    
+    - { regexp: '"EnableSignInWithEmail":',    line: '        "EnableSignInWithEmail": {{ mattermost_config.EnableSignInWithEmail }},' }       
+    - { regexp: '"EnableSignInWithUsername":', line: '        "EnableSignInWithUsername": {{ mattermost_config.EnableSignInWithUsername }},' }    
+    - { regexp: '"SendEmailNotifications":',   line: '        "SendEmailNotifications": {{ mattermost_config.SendEmailNotifications }},' }       
+    - { regexp: '"RequireEmailVerification":', line: '        "RequireEmailVerification": {{ mattermost_config.RequireEmailVerification }},' }    
+    - { regexp: '"FeedbackName":',             line: '        "FeedbackName": "{{ mattermost_config.FeedbackName }}",' }       
+    - { regexp: '"FeedbackEmail":',            line: '        "FeedbackEmail": "{{ mattermost_config.FeedbackEmail }}",' }       
+    - { regexp: '"FeedbackOrganization":',     line: '        "FeedbackOrganization": "{{ mattermost_config.FeedbackOrganization }}",' }       
+    - { regexp: '"SMTPUsername":',             line: '        "SMTPUsername": "{{ mattermost_config.SMTPUsername }}",' }    
+    - { regexp: '"SMTPPassword":',             line: '        "SMTPPassword": "{{ mattermost_config.SMTPPassword }}",' }    
+    - { regexp: '"SMTPServer":',               line: '        "SMTPServer": "{{ mattermost_config.SMTPServer }}",' }    
+    - { regexp: '"SMTPPort":',                 line: '        "SMTPPort": "{{ mattermost_config.SMTPPort }}",' }
+    - { regexp: '"ConnectionSecurity":',       line: '        "ConnectionSecurity": "{{ mattermost_config.ConnectionSecurity }}",' }            
+    - { regexp: '"SendPushNotifications":',    line: '        "SendPushNotifications": {{ mattermost_config.SendPushNotifications }},' }       
+    - { regexp: '"PushNotificationServer":',   line: '        "PushNotificationServer": "{{ mattermost_config.PushNotificationServer }}",' }    
+    - { regexp: '"PushNotificationContents":', line: '        "PushNotificationContents": "{{ mattermost_config.PushNotificationContents }}",' }       
+    - { regexp: '"EnableEmailBatching":',      line: '        "EnableEmailBatching": {{ mattermost_config.EnableEmailBatching }},' }
+    - { regexp: '"MaxUsersPerTeam":',          line: '        "MaxUsersPerTeam": {{ mattermost_config.MaxUsersPerTeam }},' }        
+    - { regexp: '"EnableTeamCreation":',       line: '        "EnableTeamCreation": {{ mattermost_config.EnableTeamCreation }},' }        
+    - { regexp: '"EnableUserCreation":',       line: '        "EnableUserCreation": {{ mattermost_config.EnableUserCreation }},' }
+    - { regexp: '"EnableOpenServer":',         line: '        "EnableOpenServer": {{ mattermost_config.EnableOpenServer }},' }                
+    - { regexp: '"RestrictTeamNames":',        line: '        "RestrictTeamNames": {{ mattermost_config.RestrictTeamNames }},' }                
+    - { regexp: '"EnablePublicLink":',         line: '        "EnablePublicLink": {{ mattermost_config.EnablePublicLink }},' }
+    - { regexp: '"EnableOnlyAdminIntegrations":', line: '     "EnableOnlyAdminIntegrations": {{ mattermost_config.EnableOnlyAdminIntegrations }},' }
+    - { regexp: '"EnableCustomEmoji":',        line: '        "EnableCustomEmoji": {{ mattermost_config.EnableCustomEmoji }},' }
+    notify:
     - restart mattermost
 
-  
 - name: Create mattermost user
   user: 
     name: "{{ mattermost_user }}"
