@@ -85,6 +85,9 @@
 - name: Install the latest postfix
   package: name=postfix state=latest
 
+- name: Install the latest postfix
+  package: name=mailutils state=latest
+  
   
 # MIGHT BE DEBIAN SPECIFIC (start)  
 - name: "Ensuring /etc/mailname is present"
@@ -102,6 +105,16 @@
     dest: /etc/postfix/main.cf
     regexp: '#myorigin = /etc/mailname'
     line: 'myorigin = /etc/mailname'
+  notify:
+    - restart postfix
 # MIGHT BE DEBIAN SPECIFIC (end)    
+
+- name: "Ensure /etc/postfix/main.cf has myhostname set"
+  lineinfile:
+    dest: /etc/postfix/main.cf
+    regexp: 'myhostname ='
+    line: 'myhostname = {{ mattermost_fqdn }}'
+  notify:
+    - restart postfix
 
 # TODO Install Nginx proxy file
