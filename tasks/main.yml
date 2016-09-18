@@ -20,21 +20,22 @@
   args:
     creates: /opt/mattermost/bin/platform
 
-- name: Edit /opt/mattermost/config/config.json
-  lineinfile:
-    dest: /opt/mattermost/config/config.json
-    regexp: '"DataSource":'
-    line: '        "DataSource": "{{ db_user }}:{{ db_password }}@tcp(127.0.0.1:3306)/{{ db_name }}?charset=utf8mb4,utf8",'
-    backrefs: yes
+#- name: Edit /opt/mattermost/config/config.json
+#  lineinfile:
+#    dest: /opt/mattermost/config/config.json
+#    regexp: '"DataSource":'
+#    line: '        "DataSource": "{{ db_user }}:{{ db_password }}@tcp(127.0.0.1:3306)/{{ db_name }}?charset=utf8mb4,utf8",'
+#    backrefs: yes
 
-- name: Edit /opt/mattermost/config/config.json
-  lineinfile:
-    dest: /opt/mattermost/config/config.json
-    regexp: '"{{ item.key }}":'
-    line: '        "{{ item.key }}": "{{ item.value }}",'
-    backrefs: yes
-  with_items: "{{ mattermost_config }}"
-    
+- name: Listen on public and private IP
+  lineinfile: dest=/etc/ssh/sshd_config
+              line='{{ item.line }}'
+              backrefs: yes
+  with_items:
+    - { regexp: '"SiteURL":',    line: '        "SiteURL": "{{ mattermost_config.SiteURL }}",' }
+    - { regexp: '"DataSource":', line: '        "DataSource": "{{ db_user }}:{{ db_password }}@tcp(127.0.0.1:3306)/{{ db_name }}?charset=utf8mb4,utf8",' }
+
+  
 - name: Create mattermost user
   user: 
     name: "{{ mattermost_user }}"
@@ -60,17 +61,24 @@
 
 - name: Install the latest postfix
   package: name=postfix state=latest
+
   
-- name: Enable Mattermost service
-  service:
-    name: postfix
-    enabled: yes
-    state: started
+# MIGHT BE DEBIAN SPECIFIC (start)  
+- name: "Ensuring /etc/mailname is present"
+  template:
+    src: mailname.j2
+    dest: "/etc/mailname"
+    mode: 0644
+    owner: root
+    group: root
+  notify:
+    - reload postfix
+    
+- name: "Ensure /etc/postfix/main.cf has myorigin set"
+  lineinfile:
+    dest: /etc/postfix/main.cf
+    regexp: '#myorigin = /etc/mailname'
+    line: 'myorigin = /etc/mailname'
+# MIGHT BE DEBIAN SPECIFIC (end)    
 
-- name: Enable Mattermost service
-  service:
-    name: mattermost
-    enabled: yes
-    state: started
-
- 
+# TODO Install Nginx proxy file

@@ -3,6 +3,7 @@ mattermost_version: 3.4.0
 
 ### The user the mattermost process will run as. The group will match.
 mattermost_user: 'mattermost'
+mattermost_fqdn: 'mattermost.localhost'
 
 ### Database settings
 db_user: 'mmmost'
@@ -13,5 +14,4 @@ db_name: 'mattermost'
 
 ### Mattermost config
 mattermost_config:
-  SegmentDeveloperKey: 'testansible'
-
+        SiteURL: "https://{{ mattermost_fqdn }}"
