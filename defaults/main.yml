@@ -37,12 +37,12 @@ mattermost_config:
   SMTPPort: "25"
   ConnectionSecurity: ""
   SendPushNotifications: "true"
-  PushNotificationServer: "http://push-test.mattermost.com"
+  PushNotificationServer: "https://push-test.mattermost.com"
   PushNotificationContents: "generic"
   EnableEmailBatching: "true"
   MaxUsersPerTeam: 300
   EnableTeamCreation: "false" # NOTE make sure you know what this does prior to changing
-  EnableUserCreation: "true"  
+  EnableUserCreation: "false"  
   EnableOpenServer: "false"   # NOTE make sure you know what this does prior to changing
   RestrictTeamNames: "true"   # NOTE make sure you know what this does prior to changing
   EnablePublicLink: "false"   # NOTE make sure you know what this does prior to changing
